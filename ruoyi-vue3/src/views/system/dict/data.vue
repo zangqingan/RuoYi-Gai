@@ -254,8 +254,10 @@ import {
   updateData,
 } from "@/api/system/dict/data";
 const $tab = inject("$tab");
+const parseTime = inject("parseTime");
+const useDict = inject("useDict");
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
+const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const dataList = ref([]);
 const open = ref(false);
@@ -333,6 +335,7 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
+const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     dictCode: undefined,
@@ -344,7 +347,7 @@ function reset() {
     status: "0",
     remark: undefined,
   };
-  proxy.resetForm("dataRef");
+  resetForm("dataRef");
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -358,7 +361,7 @@ function handleClose() {
 }
 /** 重置按钮操作 */
 function resetQuery() {
-  proxy.resetForm("queryRef");
+  resetForm("queryRef");
   queryParams.value.dictType = defaultDictType;
   handleQuery();
 }
@@ -423,8 +426,9 @@ function handleDelete(row) {
     .catch(() => {});
 }
 /** 导出按钮操作 */
+const download = inject("download");
 function handleExport() {
-  proxy.download(
+  download(
     "system/dict/data/export",
     {
       ...queryParams.value,

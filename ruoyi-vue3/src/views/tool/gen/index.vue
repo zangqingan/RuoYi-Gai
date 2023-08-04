@@ -274,22 +274,23 @@ const data = reactive({
 });
 
 const { queryParams, preview } = toRefs(data);
-
+const resetForm = inject("resetForm");
 onActivated(() => {
   const time = route.query.t;
   if (time != null && time != uniqueId.value) {
     uniqueId.value = time;
     queryParams.value.pageNum = Number(route.query.pageNum);
     dateRange.value = [];
-    proxy.resetForm("queryForm");
+    resetForm("queryForm");
     getList();
   }
 });
 
 /** 查询表集合 */
+const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
-  listTable(proxy.addDateRange(queryParams.value, dateRange.value)).then(
+  listTable(addDateRange(queryParams.value, dateRange.value)).then(
     (response) => {
       tableList.value = response.rows;
       total.value = response.total;
@@ -337,7 +338,7 @@ function openImportTable() {
 /** 重置按钮操作 */
 function resetQuery() {
   dateRange.value = [];
-  proxy.resetForm("queryRef");
+  resetForm("queryRef");
   handleQuery();
 }
 /** 预览按钮 */

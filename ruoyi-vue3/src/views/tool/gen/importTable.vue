@@ -92,8 +92,9 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const resetForm = inject("resetForm");
 function resetQuery() {
-  proxy.resetForm("queryRef");
+  resetForm("queryRef");
   handleQuery();
 }
 /** 导入按钮操作 */

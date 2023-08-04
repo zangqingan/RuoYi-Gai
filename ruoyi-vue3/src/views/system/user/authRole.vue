@@ -69,6 +69,7 @@
 <script setup name="AuthRole">
 import { getAuthRole, updateAuthRole } from "@/api/system/user";
 const $modal = inject("$modal");
+const parseTime = inject("parseTime");
 const route = useRoute();
 const { proxy } = getCurrentInstance();
 const $tab = inject("$tab");

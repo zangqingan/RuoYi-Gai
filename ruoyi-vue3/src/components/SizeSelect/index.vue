@@ -6,7 +6,12 @@
       </div>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item v-for="item of sizeOptions" :key="item.value" :disabled="size === item.value" :command="item.value">
+          <el-dropdown-item
+            v-for="item of sizeOptions"
+            :key="item.value"
+            :disabled="size === item.value"
+            :command="item.value"
+          >
             {{ item.label }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -30,13 +35,13 @@ const sizeOptions = ref([
 ]);
 
 function handleSetSize(size) {
-  $modal.loading("正在设置布局大小，请稍候...");
+  proxy.$modal.loading("正在设置布局大小，请稍候...");
   appStore.setSize(size);
   setTimeout("window.location.reload()", 1000);
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .size-icon--style {
   font-size: 18px;
   line-height: 50px;

@@ -239,12 +239,14 @@ import { getJob } from "@/api/monitor/job";
 import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/jobLog";
 
 const $tab = inject("$tab");
+const useDict = inject("useDict");
 const { proxy } = getCurrentInstance();
-const { sys_common_status, sys_job_group } = proxy.useDict(
+const { sys_common_status, sys_job_group } = useDict(
   "sys_common_status",
   "sys_job_group"
 );
 const $modal = inject("$modal");
+const parseTime = inject("parseTime");
 const jobLogList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -269,9 +271,10 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询调度日志列表 */
+const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
-  listJobLog(proxy.addDateRange(queryParams.value, dateRange.value)).then(
+  listJobLog(addDateRange(queryParams.value, dateRange.value)).then(
     (response) => {
       jobLogList.value = response.rows;
       total.value = response.total;
@@ -290,9 +293,10 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const resetForm = inject("resetForm");
 function resetQuery() {
   dateRange.value = [];
-  proxy.resetForm("queryRef");
+  resetForm("queryRef");
   handleQuery();
 }
 // 多选框选中数据
@@ -332,8 +336,9 @@ function handleClean() {
     .catch(() => {});
 }
 /** 导出按钮操作 */
+const download = inject("download");
 function handleExport() {
-  proxy.download(
+  download(
     "monitor/jobLog/export",
     {
       ...queryParams.value,

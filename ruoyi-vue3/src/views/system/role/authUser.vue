@@ -147,9 +147,11 @@ import {
   authUserCancelAll,
 } from "@/api/system/role";
 const $tab = inject("$tab");
+const parseTime = inject("parseTime");
 const route = useRoute();
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
+const useDict = inject("useDict");
+const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const userList = ref([]);
 const loading = ref(true);
@@ -186,8 +188,9 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const resetForm = inject("resetForm");
 function resetQuery() {
-  proxy.resetForm("queryRef");
+  resetForm("queryRef");
   handleQuery();
 }
 // 多选框选中数据

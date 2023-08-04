@@ -407,12 +407,17 @@ import {
 } from "@/api/monitor/job";
 
 const router = useRouter();
+const useDict = inject("useDict");
 const { proxy } = getCurrentInstance();
-const { sys_job_group, sys_job_status } = proxy.useDict(
+const { sys_job_group, sys_job_status } = useDict(
   "sys_job_group",
   "sys_job_status"
 );
+
 const $modal = inject("$modal");
+const parseTime = inject("parseTime");
+const download = inject("download");
+const resetForm = inject("resetForm");
 const jobList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -458,8 +463,9 @@ function getList() {
   });
 }
 /** 任务组名字典翻译 */
+const selectDictLabel = inject("selectDictLabel");
 function jobGroupFormat(row, column) {
-  return proxy.selectDictLabel(sys_job_group.value, row.jobGroup);
+  return selectDictLabel(sys_job_group.value, row.jobGroup);
 }
 /** 取消按钮 */
 function cancel() {
@@ -478,7 +484,7 @@ function reset() {
     concurrent: 1,
     status: "0",
   };
-  proxy.resetForm("jobRef");
+  resetForm("jobRef");
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -487,7 +493,7 @@ function handleQuery() {
 }
 /** 重置按钮操作 */
 function resetQuery() {
-  proxy.resetForm("queryRef");
+  resetForm("queryRef");
   handleQuery();
 }
 // 多选框选中数据
@@ -612,7 +618,7 @@ function handleDelete(row) {
 }
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download(
+  download(
     "monitor/job/export",
     {
       ...queryParams.value,
