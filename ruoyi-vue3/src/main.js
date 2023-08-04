@@ -1,10 +1,5 @@
 import { createApp } from "vue";
 
-import Cookies from "js-cookie";
-
-import ElementPlus from "element-plus";
-import locale from "element-plus/lib/locale/lang/zh-cn"; // 中文语言
-
 import "@/assets/styles/index.scss"; // global css
 
 import App from "./App";
@@ -76,15 +71,15 @@ app.component("svg-icon", SvgIcon);
 
 app.use(router);
 app.use(store);
-app.use(directive);
-app.use(plugins);
+app.use(directive); // 自定义指令
+app.use(plugins); // 自定义全局插件
 app.use(elementIcons);
 
 // 使用element-plus 并且设置全局的大小
-app.use(ElementPlus, {
-  locale: locale,
-  // 支持 large、default、small
-  size: Cookies.get("size") || "default",
-});
+// app.use(ElementPlus, {
+//   locale: locale,
+//   // 支持 large、default、small
+//   size: Cookies.get("size") || "default",
+// });
 
 app.mount("#app");
