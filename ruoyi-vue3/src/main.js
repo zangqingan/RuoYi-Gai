@@ -10,10 +10,11 @@ import "@/assets/styles/index.scss"; // global css
 import App from "./App";
 import store from "./store";
 import router from "./router";
-import directive from "./directive"; // directive
 
 // 注册指令
 import plugins from "./plugins";
+// 注册自定义指令
+import directive from "./directive";
 
 // svg图标
 import "virtual:svg-icons-register";
@@ -71,14 +72,13 @@ app.component("ImageUpload", ImageUpload);
 app.component("ImagePreview", ImagePreview);
 app.component("RightToolbar", RightToolbar);
 app.component("Editor", Editor);
+app.component("svg-icon", SvgIcon);
 
 app.use(router);
 app.use(store);
+app.use(directive);
 app.use(plugins);
 app.use(elementIcons);
-app.component("svg-icon", SvgIcon);
-
-directive(app);
 
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {
