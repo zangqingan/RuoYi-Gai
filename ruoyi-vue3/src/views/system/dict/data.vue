@@ -232,7 +232,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(dataRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -389,8 +391,9 @@ function handleUpdate(row) {
   });
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["dataRef"].validate((valid) => {
+const dataRef = ref(null);
+function submitForm(dataRef) {
+  dataRef.validate((valid) => {
     if (valid) {
       if (form.value.dictCode != undefined) {
         updateData(form.value).then((response) => {

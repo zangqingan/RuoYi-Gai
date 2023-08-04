@@ -83,7 +83,6 @@ const props = defineProps({
   },
 });
 
-const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
 const emit = defineEmits();
 const number = ref(0);
@@ -157,6 +156,7 @@ function handleUploadError(err) {
 }
 
 // 上传成功回调
+const fileUpload = ref(null);
 function handleUploadSuccess(res, file) {
   if (res.code === 200) {
     uploadList.value.push({ name: res.fileName, url: res.fileName });
@@ -165,7 +165,7 @@ function handleUploadSuccess(res, file) {
     number.value--;
     $modal.closeLoading();
     $modal.msgError(res.msg);
-    proxy.$refs.fileUpload.handleRemove(file);
+    fileUpload.value.handleRemove(file);
     uploadedSuccessfully();
   }
 }

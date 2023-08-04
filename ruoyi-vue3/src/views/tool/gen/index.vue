@@ -244,7 +244,6 @@ import router from "@/router";
 import importTable from "./importTable";
 
 const route = useRoute();
-const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
 const $download = inject("$download");
 const tableList = ref([]);
@@ -332,8 +331,9 @@ function handleSynchDb(row) {
     .catch(() => {});
 }
 /** 打开导入表弹窗 */
+const importRef = ref(null);
 function openImportTable() {
-  proxy.$refs["importRef"].show();
+  importRef.value.show();
 }
 /** 重置按钮操作 */
 function resetQuery() {
