@@ -88,7 +88,7 @@ import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
 import { handleThemeStyle } from '@/utils/theme'
-
+const $modal = inject("$modal");
 const { proxy } = getCurrentInstance();
 const appStore = useAppStore()
 const settingsStore = useSettingsStore()
@@ -151,7 +151,7 @@ function handleTheme(val) {
   sideTheme.value = val;
 }
 function saveSetting() {
-  proxy.$modal.loading("正在保存到本地，请稍候...");
+  $modal.loading("正在保存到本地，请稍候...");
   let layoutSetting = {
     "topNav": storeSettings.value.topNav,
     "tagsView": storeSettings.value.tagsView,
@@ -162,10 +162,10 @@ function saveSetting() {
     "theme": storeSettings.value.theme
   };
   localStorage.setItem("layout-setting", JSON.stringify(layoutSetting));
-  setTimeout(proxy.$modal.closeLoading(), 1000)
+  setTimeout($modal.closeLoading(), 1000)
 }
 function resetSetting() {
-  proxy.$modal.loading("正在清除设置缓存并刷新，请稍候...");
+  $modal.loading("正在清除设置缓存并刷新，请稍候...");
   localStorage.removeItem("layout-setting")
   setTimeout("window.location.reload()", 1000)
 }

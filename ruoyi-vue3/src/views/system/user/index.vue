@@ -335,6 +335,7 @@ import { changeUserStatus, listUser, resetUserPwd, delUser, getUser, updateUser,
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
+const $modal = inject("$modal");
 const { sys_normal_disable, sys_user_sex } = proxy.useDict("sys_normal_disable", "sys_user_sex");
 
 const userList = ref([]);
@@ -444,11 +445,11 @@ function resetQuery() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const userIds = row.userId || ids.value;
-  proxy.$modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？').then(function () {
+  $modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？').then(function () {
     return delUser(userIds);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    $modal.msgSuccess("删除成功");
   }).catch(() => {});
 };
 /** 导出按钮操作 */
@@ -460,10 +461,10 @@ function handleExport() {
 /** 用户状态修改  */
 function handleStatusChange(row) {
   let text = row.status === "0" ? "启用" : "停用";
-  proxy.$modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗?').then(function () {
+  $modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗?').then(function () {
     return changeUserStatus(row.userId, row.status);
   }).then(() => {
-    proxy.$modal.msgSuccess(text + "成功");
+    $modal.msgSuccess(text + "成功");
   }).catch(function () {
     row.status = row.status === "0" ? "1" : "0";
   });
@@ -496,7 +497,7 @@ function handleResetPwd(row) {
     inputErrorMessage: "用户密码长度必须介于 5 和 20 之间",
   }).then(({ value }) => {
     resetUserPwd(row.userId, value).then(response => {
-      proxy.$modal.msgSuccess("修改成功，新密码是：" + value);
+      $modal.msgSuccess("修改成功，新密码是：" + value);
     });
   }).catch(() => {});
 };
@@ -587,13 +588,13 @@ function submitForm() {
     if (valid) {
       if (form.value.userId != undefined) {
         updateUser(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功");
+          $modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
         addUser(form.value).then(response => {
-          proxy.$modal.msgSuccess("新增成功");
+          $modal.msgSuccess("新增成功");
           open.value = false;
           getList();
         });

@@ -71,7 +71,7 @@ const props = defineProps({
     default: true
   },
 });
-
+const $modal = inject("$modal");
 const { proxy } = getCurrentInstance();
 const emit = defineEmits();
 const number = ref(0);
@@ -124,7 +124,7 @@ function handleBeforeUpload(file) {
     isImg = file.type.indexOf("image") > -1;
   }
   if (!isImg) {
-    proxy.$modal.msgError(
+    $modal.msgError(
       `文件格式不正确, 请上传${props.fileType.join("/")}图片格式文件!`
     );
     return false;
@@ -132,17 +132,17 @@ function handleBeforeUpload(file) {
   if (props.fileSize) {
     const isLt = file.size / 1024 / 1024 < props.fileSize;
     if (!isLt) {
-      proxy.$modal.msgError(`上传头像图片大小不能超过 ${props.fileSize} MB!`);
+      $modal.msgError(`上传头像图片大小不能超过 ${props.fileSize} MB!`);
       return false;
     }
   }
-  proxy.$modal.loading("正在上传图片，请稍候...");
+  $modal.loading("正在上传图片，请稍候...");
   number.value++;
 }
 
 // 文件个数超出
 function handleExceed() {
-  proxy.$modal.msgError(`上传文件数量不能超过 ${props.limit} 个!`);
+  $modal.msgError(`上传文件数量不能超过 ${props.limit} 个!`);
 }
 
 // 上传成功回调
@@ -152,8 +152,8 @@ function handleUploadSuccess(res, file) {
     uploadedSuccessfully();
   } else {
     number.value--;
-    proxy.$modal.closeLoading();
-    proxy.$modal.msgError(res.msg);
+    $modal.closeLoading();
+    $modal.msgError(res.msg);
     proxy.$refs.imageUpload.handleRemove(file);
     uploadedSuccessfully();
   }
@@ -176,14 +176,14 @@ function uploadedSuccessfully() {
     uploadList.value = [];
     number.value = 0;
     emit("update:modelValue", listToString(fileList.value));
-    proxy.$modal.closeLoading();
+    $modal.closeLoading();
   }
 }
 
 // 上传失败
 function handleUploadError() {
-  proxy.$modal.msgError("上传图片失败");
-  proxy.$modal.closeLoading();
+  $modal.msgError("上传图片失败");
+  $modal.closeLoading();
 }
 
 // 预览

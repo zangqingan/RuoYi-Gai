@@ -149,7 +149,7 @@ import { listPost, addPost, delPost, getPost, updatePost } from "@/api/system/po
 
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
-
+const $modal = inject("$modal");
 const postList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -242,13 +242,13 @@ function submitForm() {
     if (valid) {
       if (form.value.postId != undefined) {
         updatePost(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功");
+          $modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
         addPost(form.value).then(response => {
-          proxy.$modal.msgSuccess("新增成功");
+          $modal.msgSuccess("新增成功");
           open.value = false;
           getList();
         });
@@ -259,11 +259,11 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const postIds = row.postId || ids.value;
-  proxy.$modal.confirm('是否确认删除岗位编号为"' + postIds + '"的数据项？').then(function() {
+  $modal.confirm('是否确认删除岗位编号为"' + postIds + '"的数据项？').then(function() {
     return delPost(postIds);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    $modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 /** 导出按钮操作 */

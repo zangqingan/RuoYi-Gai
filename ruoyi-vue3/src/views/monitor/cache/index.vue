@@ -67,16 +67,16 @@
 <script setup name="Cache">
 import { getCache } from '@/api/monitor/cache';
 import * as echarts from 'echarts';
-
+const $modal = inject("$modal");
 const cache = ref([]);
 const commandstats = ref(null);
 const usedmemory = ref(null);
 const { proxy } = getCurrentInstance();
 
 function getList() {
-  proxy.$modal.loading("正在加载缓存监控数据，请稍候！");
+  $modal.loading("正在加载缓存监控数据，请稍候！");
   getCache().then(response => {
-    proxy.$modal.closeLoading();
+    $modal.closeLoading();
     cache.value = response.data;
 
     const commandstatsIntance = echarts.init(commandstats.value, "macarons");

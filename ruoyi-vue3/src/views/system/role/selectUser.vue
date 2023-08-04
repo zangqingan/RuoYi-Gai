@@ -68,7 +68,7 @@ const props = defineProps({
     type: [Number, String]
   }
 });
-
+const $modal = inject("$modal");
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
 
@@ -122,11 +122,11 @@ function handleSelectUser() {
   const roleId = queryParams.roleId;
   const uIds = userIds.value.join(",");
   if (uIds == "") {
-    proxy.$modal.msgError("请选择要分配的用户");
+    $modal.msgError("请选择要分配的用户");
     return;
   }
   authUserSelectAll({ roleId: roleId, userIds: uIds }).then(res => {
-    proxy.$modal.msgSuccess(res.msg);
+    $modal.msgSuccess(res.msg);
     if (res.code === 200) {
       visible.value = false;
       emit("ok");

@@ -126,7 +126,7 @@
 
 <script setup name="Logininfor">
 import { list, delLogininfor, cleanLogininfor, unlockLogininfor } from "@/api/monitor/logininfor";
-
+const $modal = inject("$modal");
 const { proxy } = getCurrentInstance();
 const { sys_common_status } = proxy.useDict("sys_common_status");
 
@@ -189,29 +189,29 @@ function handleSortChange(column, prop, order) {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const infoIds = row.infoId || ids.value;
-  proxy.$modal.confirm('是否确认删除访问编号为"' + infoIds + '"的数据项?').then(function () {
+  $modal.confirm('是否确认删除访问编号为"' + infoIds + '"的数据项?').then(function () {
     return delLogininfor(infoIds);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    $modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 /** 清空按钮操作 */
 function handleClean() {
-  proxy.$modal.confirm("是否确认清空所有登录日志数据项?").then(function () {
+  $modal.confirm("是否确认清空所有登录日志数据项?").then(function () {
     return cleanLogininfor();
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("清空成功");
+    $modal.msgSuccess("清空成功");
   }).catch(() => {});
 }
 /** 解锁按钮操作 */
 function handleUnlock() {
   const username = selectName.value;
-  proxy.$modal.confirm('是否确认解锁用户"' + username + '"数据项?').then(function () {
+  $modal.confirm('是否确认解锁用户"' + username + '"数据项?').then(function () {
     return unlockLogininfor(username);
   }).then(() => {
-    proxy.$modal.msgSuccess("用户" + username + "解锁成功");
+    $modal.msgSuccess("用户" + username + "解锁成功");
   }).catch(() => {});
 }
 /** 导出按钮操作 */

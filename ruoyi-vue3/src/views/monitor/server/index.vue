@@ -174,12 +174,12 @@ import { getServer } from '@/api/monitor/server'
 
 const server = ref([]);
 const { proxy } = getCurrentInstance();
-
+const $modal = inject("$modal");
 function getList() {
-  proxy.$modal.loading("正在加载服务监控数据，请稍候！");
+  $modal.loading("正在加载服务监控数据，请稍候！");
   getServer().then(response => {
     server.value = response.data;
-    proxy.$modal.closeLoading();
+    $modal.closeLoading();
   });
 }
 

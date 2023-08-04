@@ -190,7 +190,7 @@
 
 <script setup name="Operlog">
 import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog";
-
+const $modal = inject("$modal");
 const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = proxy.useDict("sys_oper_type","sys_common_status");
 
@@ -264,20 +264,20 @@ function handleView(row) {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const operIds = row.operId || ids.value;
-  proxy.$modal.confirm('是否确认删除日志编号为"' + operIds + '"的数据项?').then(function () {
+  $modal.confirm('是否确认删除日志编号为"' + operIds + '"的数据项?').then(function () {
     return delOperlog(operIds);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    $modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 /** 清空按钮操作 */
 function handleClean() {
-  proxy.$modal.confirm("是否确认清空所有操作日志数据项?").then(function () {
+  $modal.confirm("是否确认清空所有操作日志数据项?").then(function () {
     return cleanOperlog();
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("清空成功");
+    $modal.msgSuccess("清空成功");
   }).catch(() => {});
 }
 /** 导出按钮操作 */

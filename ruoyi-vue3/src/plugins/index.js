@@ -1,18 +1,18 @@
-import tab from './tab'
-import auth from './auth'
-import cache from './cache'
-import modal from './modal'
-import download from './download'
+// import.meta.glob加上第二个参数全部导入
+const modules = import.meta.glob("./*.js", { eager: true });
 
-export default function installPlugins(app){
-  // 页签操作
-  app.config.globalProperties.$tab = tab
-  // 认证对象
-  app.config.globalProperties.$auth = auth
-  // 缓存对象
-  app.config.globalProperties.$cache = cache
-  // 模态框对象
-  app.config.globalProperties.$modal = modal
-  // 下载文件
-  app.config.globalProperties.$download = download
-}
+const pluginsMap = new Map(
+  Object.entries(modules).map(([path, module]) => {
+    return [path.split("/").pop().split(".").shift(), module.default];
+  })
+);
+
+// vue插件形式全局注入对象
+export default {
+  install: (app) => {
+    pluginsMap.forEach((value, key) => {
+      // app.provide('$modal',modal)
+      app.provide(`$${key}`, value);
+    });
+  },
+};

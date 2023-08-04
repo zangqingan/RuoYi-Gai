@@ -282,7 +282,7 @@ import { addMenu, delMenu, getMenu, listMenu, updateMenu } from "@/api/system/me
 import SvgIcon from "@/components/SvgIcon";
 import IconSelect from "@/components/IconSelect";
 import { ClickOutside as vClickOutside } from 'element-plus'
-
+const $modal = inject("$modal");
 const { proxy } = getCurrentInstance();
 const { sys_show_hide, sys_normal_disable } = proxy.useDict("sys_show_hide", "sys_normal_disable");
 
@@ -413,13 +413,13 @@ function submitForm() {
     if (valid) {
       if (form.value.menuId != undefined) {
         updateMenu(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功");
+          $modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
         addMenu(form.value).then(response => {
-          proxy.$modal.msgSuccess("新增成功");
+          $modal.msgSuccess("新增成功");
           open.value = false;
           getList();
         });
@@ -429,11 +429,11 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-  proxy.$modal.confirm('是否确认删除名称为"' + row.menuName + '"的数据项?').then(function() {
+  $modal.confirm('是否确认删除名称为"' + row.menuName + '"的数据项?').then(function() {
     return delMenu(row.menuId);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    $modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 

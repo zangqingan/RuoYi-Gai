@@ -61,7 +61,7 @@
 import { forceLogout, list as initData } from "@/api/monitor/online";
 
 const { proxy } = getCurrentInstance();
-
+const $modal = inject("$modal");
 const onlineList = ref([]);
 const loading = ref(true);
 const total = ref(0);
@@ -94,11 +94,11 @@ function resetQuery() {
 }
 /** 强退按钮操作 */
 function handleForceLogout(row) {
-    proxy.$modal.confirm('是否确认强退名称为"' + row.userName + '"的用户?').then(function () {
+    $modal.confirm('是否确认强退名称为"' + row.userName + '"的用户?').then(function () {
   return forceLogout(row.tokenId);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    $modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 

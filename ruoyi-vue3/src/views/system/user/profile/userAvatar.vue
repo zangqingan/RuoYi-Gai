@@ -1,7 +1,14 @@
 <template>
   <div class="user-info-head" @click="editCropper()">
     <img :src="options.img" title="点击上传头像" class="img-circle img-lg" />
-    <el-dialog :title="title" v-model="open" width="800px" append-to-body @opened="modalOpened" @close="closeDialog">
+    <el-dialog
+      :title="title"
+      v-model="open"
+      width="800px"
+      append-to-body
+      @opened="modalOpened"
+      @close="closeDialog"
+    >
       <el-row>
         <el-col :xs="24" :md="12" :style="{ height: '350px' }">
           <vue-cropper
@@ -66,6 +73,7 @@ import useUserStore from "@/store/modules/user";
 
 const userStore = useUserStore();
 const { proxy } = getCurrentInstance();
+const $modal = inject("$modal");
 
 const open = ref(false);
 const visible = ref(false);
@@ -79,7 +87,7 @@ const options = reactive({
   autoCropHeight: 200, // 默认生成截图框高度
   fixedBox: true, // 固定截图框大小 不允许改变
   outputType: "png", // 默认生成截图为PNG格式
-  previews: {} //预览数据
+  previews: {}, //预览数据
 });
 
 /** 编辑头像 */
@@ -108,7 +116,7 @@ function changeScale(num) {
 /** 上传预处理 */
 function beforeUpload(file) {
   if (file.type.indexOf("image/") == -1) {
-    proxy.$modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
+    $modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
   } else {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -119,14 +127,14 @@ function beforeUpload(file) {
 }
 /** 上传图片 */
 function uploadImg() {
-  proxy.$refs.cropper.getCropBlob(data => {
+  proxy.$refs.cropper.getCropBlob((data) => {
     let formData = new FormData();
     formData.append("avatarfile", data);
-    uploadAvatar(formData).then(response => {
+    uploadAvatar(formData).then((response) => {
       open.value = false;
       options.img = import.meta.env.VITE_APP_BASE_API + response.imgUrl;
       userStore.avatar = options.img;
-      proxy.$modal.msgSuccess("修改成功");
+      $modal.msgSuccess("修改成功");
       visible.value = false;
     });
   });
@@ -142,7 +150,7 @@ function closeDialog() {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .user-info-head {
   position: relative;
   display: inline-block;
