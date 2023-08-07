@@ -260,7 +260,7 @@
 
 <script setup>
 import { listMenu } from "@/api/system/menu";
-
+import { handleTree } from "@/utils/ruoyi";
 const subColumns = ref([]);
 const menuOptions = ref([]);
 const { proxy } = getCurrentInstance();
@@ -311,7 +311,6 @@ function setSubTableColumns(value) {
   }
 }
 /** 查询菜单下拉树结构 */
-const handleTree = inject("handleTree");
 function getMenuTreeselect() {
   listMenu().then((response) => {
     menuOptions.value = handleTree(response.data, "menuId");

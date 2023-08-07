@@ -240,6 +240,7 @@ import {
   genCode,
   synchDb,
 } from "@/api/tool/gen";
+import { resetForm, addDateRange } from "@/utils/ruoyi";
 import router from "@/router";
 import importTable from "./importTable";
 
@@ -273,7 +274,6 @@ const data = reactive({
 });
 
 const { queryParams, preview } = toRefs(data);
-const resetForm = inject("resetForm");
 onActivated(() => {
   const time = route.query.t;
   if (time != null && time != uniqueId.value) {
@@ -286,7 +286,6 @@ onActivated(() => {
 });
 
 /** 查询表集合 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
   listTable(addDateRange(queryParams.value, dateRange.value)).then(

@@ -147,8 +147,8 @@ import {
   authUserCancel,
   authUserCancelAll,
 } from "@/api/system/role";
+import { parseTime, resetForm } from "@/utils/ruoyi";
 const $tab = inject("$tab");
-const parseTime = inject("parseTime");
 const route = useRoute();
 const { proxy } = getCurrentInstance();
 
@@ -189,7 +189,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   resetForm("queryRef");
   handleQuery();

@@ -247,8 +247,9 @@ import {
   refreshCache,
 } from "@/api/system/config";
 import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
 
 const { proxy } = getCurrentInstance();
 const { sys_yes_no } = useDict("sys_yes_no");
@@ -289,7 +290,6 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询参数列表 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
   listConfig(addDateRange(queryParams.value, dateRange.value)).then(
@@ -306,7 +306,6 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
-const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     configId: undefined,
@@ -386,7 +385,6 @@ function handleDelete(row) {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "system/config/export",

@@ -404,8 +404,8 @@ import { useDict } from "@/hooks/useDict";
 import SvgIcon from "@/components/SvgIcon";
 import IconSelect from "@/components/IconSelect";
 import { ClickOutside as vClickOutside } from "element-plus";
+import { parseTime, resetForm, handleTree } from "@/utils/ruoyi";
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
 
 const { proxy } = getCurrentInstance();
 const { sys_show_hide, sys_normal_disable } = useDict(
@@ -444,7 +444,7 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询菜单列表 */
-const handleTree = inject("handleTree");
+
 function getList() {
   loading.value = true;
   listMenu(queryParams.value).then((response) => {
@@ -467,7 +467,6 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
-const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     menuId: undefined,

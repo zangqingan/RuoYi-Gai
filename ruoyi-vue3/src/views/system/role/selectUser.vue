@@ -98,13 +98,13 @@
 <script setup name="SelectUser">
 import { authUserSelectAll, unallocatedUserList } from "@/api/system/role";
 import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm } from "@/utils/ruoyi";
 const props = defineProps({
   roleId: {
     type: [Number, String],
   },
 });
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
 
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
@@ -149,7 +149,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   resetForm("queryRef");
   handleQuery();

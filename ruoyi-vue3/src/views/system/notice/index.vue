@@ -231,6 +231,7 @@ import {
   updateNotice,
 } from "@/api/system/notice";
 import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm } from "@/utils/ruoyi";
 const $modal = inject("$modal");
 
 const { proxy } = getCurrentInstance();
@@ -248,7 +249,6 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
-const parseTime = inject("parseTime");
 const data = reactive({
   form: {},
   queryParams: {
@@ -285,7 +285,6 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
-const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     noticeId: undefined,

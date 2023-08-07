@@ -248,8 +248,8 @@ import {
   refreshCache,
 } from "@/api/system/dict/type";
 import { useDict } from "@/hooks/useDict";
-
-const parseTime = inject("parseTime");
+import { download } from "@/utils/request";
+import { parseTime, resetForm } from "@/utils/ruoyi";
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
@@ -286,7 +286,6 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询字典类型列表 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
   listType(addDateRange(queryParams.value, dateRange.value)).then(
@@ -303,7 +302,6 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
-const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     dictId: undefined,
@@ -382,7 +380,6 @@ function handleDelete(row) {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "system/dict/type/export",

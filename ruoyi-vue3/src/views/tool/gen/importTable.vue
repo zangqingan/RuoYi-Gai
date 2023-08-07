@@ -72,7 +72,7 @@
 
 <script setup>
 import { listDbTable, importTable } from "@/api/tool/gen";
-
+import { resetForm } from "@/utils/ruoyi";
 const total = ref(0);
 const visible = ref(false);
 const tables = ref([]);
@@ -115,7 +115,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   resetForm("queryRef");
   handleQuery();

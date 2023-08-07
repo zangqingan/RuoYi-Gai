@@ -371,10 +371,10 @@ import {
   roleMenuTreeselect,
   treeselect as menuTreeselect,
 } from "@/api/system/menu";
-
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 const router = useRouter();
 const { proxy } = getCurrentInstance();
-const parseTime = inject("parseTime");
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const roleList = ref([]);
@@ -429,7 +429,6 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询角色列表 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
   listRole(addDateRange(queryParams.value, dateRange.value)).then(
@@ -446,7 +445,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   dateRange.value = [];
   resetForm("queryRef");
@@ -467,7 +465,6 @@ function handleDelete(row) {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "system/role/export",

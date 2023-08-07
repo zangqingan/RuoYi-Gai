@@ -209,8 +209,10 @@ import {
   updatePost,
 } from "@/api/system/post";
 import { useDict } from "@/hooks/useDict";
+import { download } from "@/utils/request";
+import { parseTime, resetForm } from "@/utils/ruoyi";
+
 const { proxy } = getCurrentInstance();
-const parseTime = inject("parseTime");
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const postList = ref([]);
@@ -262,7 +264,6 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
-const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     postId: undefined,
@@ -341,7 +342,6 @@ function handleDelete(row) {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "system/post/export",

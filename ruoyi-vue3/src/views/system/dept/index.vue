@@ -223,8 +223,8 @@ import {
   updateDept,
   listDeptExcludeChild,
 } from "@/api/system/dept";
+import { parseTime, resetForm, handleTree } from "@/utils/ruoyi";
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
 
@@ -273,7 +273,6 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询部门列表 */
-const handleTree = inject("handleTree");
 function getList() {
   loading.value = true;
   listDept(queryParams.value).then((response) => {
@@ -287,7 +286,6 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
-const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     deptId: undefined,

@@ -196,8 +196,9 @@ import {
   unlockLogininfor,
 } from "@/api/monitor/logininfor";
 import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
 const { proxy } = getCurrentInstance();
 const { sys_common_status } = useDict("sys_common_status");
 
@@ -224,16 +225,13 @@ const queryParams = ref({
 });
 
 /** 查询登录日志列表 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
-  list(addDateRange(queryParams.value, dateRange.value)).then(
-    (response) => {
-      logininforList.value = response.rows;
-      total.value = response.total;
-      loading.value = false;
-    }
-  );
+  list(addDateRange(queryParams.value, dateRange.value)).then((response) => {
+    logininforList.value = response.rows;
+    total.value = response.total;
+    loading.value = false;
+  });
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -241,7 +239,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   dateRange.value = [];
   resetForm("queryRef");
@@ -305,7 +302,6 @@ function handleUnlock() {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "monitor/logininfor/export",

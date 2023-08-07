@@ -249,6 +249,7 @@ import {
   getType,
 } from "@/api/system/dict/type";
 import { useDict } from "@/hooks/useDict";
+import { download } from "@/utils/request";
 import {
   listData,
   getData,
@@ -256,8 +257,8 @@ import {
   addData,
   updateData,
 } from "@/api/system/dict/data";
+import { parseTime, resetForm } from "@/utils/ruoyi";
 const $tab = inject("$tab");
-const parseTime = inject("parseTime");
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
@@ -337,7 +338,6 @@ function cancel() {
   reset();
 }
 /** 表单重置 */
-const resetForm = inject("resetForm");
 function reset() {
   form.value = {
     dictCode: undefined,
@@ -429,7 +429,6 @@ function handleDelete(row) {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "system/dict/data/export",

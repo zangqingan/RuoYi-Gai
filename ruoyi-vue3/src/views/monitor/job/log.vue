@@ -238,6 +238,8 @@
 import { getJob } from "@/api/monitor/job";
 import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/jobLog";
 import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 const $tab = inject("$tab");
 
 const { proxy } = getCurrentInstance();
@@ -246,7 +248,6 @@ const { sys_common_status, sys_job_group } = useDict(
   "sys_job_group"
 );
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
 const jobLogList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -271,7 +272,6 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询调度日志列表 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
   listJobLog(addDateRange(queryParams.value, dateRange.value)).then(
@@ -293,7 +293,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   dateRange.value = [];
   resetForm("queryRef");
@@ -336,7 +335,6 @@ function handleClean() {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "monitor/jobLog/export",

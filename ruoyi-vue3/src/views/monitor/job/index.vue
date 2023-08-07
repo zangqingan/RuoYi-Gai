@@ -406,6 +406,8 @@ import {
   changeJobStatus,
 } from "@/api/monitor/job";
 import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm, selectDictLabel } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 const router = useRouter();
 
 const { proxy } = getCurrentInstance();
@@ -415,9 +417,6 @@ const { sys_job_group, sys_job_status } = useDict(
 );
 
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
-const download = inject("download");
-const resetForm = inject("resetForm");
 const jobList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -463,7 +462,6 @@ function getList() {
   });
 }
 /** 任务组名字典翻译 */
-const selectDictLabel = inject("selectDictLabel");
 function jobGroupFormat(row, column) {
   return selectDictLabel(sys_job_group.value, row.jobGroup);
 }

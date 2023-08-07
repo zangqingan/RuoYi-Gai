@@ -272,8 +272,9 @@
 
 <script setup name="Operlog">
 import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog";
+import { parseTime, resetForm, selectDictLabel } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 const $modal = inject("$modal");
-const parseTime = inject("parseTime");
 import { useDict } from "@/hooks/useDict";
 const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = useDict(
@@ -308,7 +309,6 @@ const data = reactive({
 const { queryParams, form } = toRefs(data);
 
 /** 查询登录日志 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
   list(addDateRange(queryParams.value, dateRange.value)).then((response) => {
@@ -318,7 +318,6 @@ function getList() {
   });
 }
 /** 操作日志类型字典翻译 */
-const selectDictLabel = inject("selectDictLabel");
 function typeFormat(row, column) {
   return selectDictLabel(sys_oper_type.value, row.businessType);
 }
@@ -328,7 +327,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   dateRange.value = [];
   resetForm("queryRef");
@@ -382,7 +380,6 @@ function handleClean() {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "monitor/operlog/export",

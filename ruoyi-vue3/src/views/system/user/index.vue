@@ -501,7 +501,8 @@ import {
   addUser,
   deptTreeSelect,
 } from "@/api/system/user";
-
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 const router = useRouter();
 const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
@@ -527,7 +528,7 @@ const deptOptions = ref(undefined);
 const initPassword = ref(undefined);
 const postOptions = ref([]);
 const roleOptions = ref([]);
-const parseTime = inject("parseTime");
+
 /*** 用户导入参数 */
 const upload = reactive({
   // 是否显示弹出层（用户导入）
@@ -621,7 +622,6 @@ function getDeptTree() {
   });
 }
 /** 查询用户列表 */
-const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
   listUser(addDateRange(queryParams.value, dateRange.value)).then((res) => {
@@ -641,7 +641,6 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
-const resetForm = inject("resetForm");
 function resetQuery() {
   dateRange.value = [];
   resetForm("queryRef");
@@ -664,7 +663,6 @@ function handleDelete(row) {
     .catch(() => {});
 }
 /** 导出按钮操作 */
-const download = inject("download");
 function handleExport() {
   download(
     "system/user/export",
