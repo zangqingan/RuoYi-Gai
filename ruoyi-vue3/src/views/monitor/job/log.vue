@@ -242,7 +242,6 @@ import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
 import { download } from "@/utils/request";
 const $tab = inject("$tab");
 
-const { proxy } = getCurrentInstance();
 const { sys_common_status, sys_job_group } = useDict(
   "sys_common_status",
   "sys_job_group"
@@ -274,13 +273,13 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询调度日志列表 */
 function getList() {
   loading.value = true;
-  listJobLog(addDateRange(queryParams.value, dateRange.value)).then(
-    (response) => {
-      jobLogList.value = response.rows;
-      total.value = response.total;
-      loading.value = false;
-    }
-  );
+  // listJobLog(addDateRange(queryParams.value, dateRange.value)).then(
+  //   (response) => {
+  //     jobLogList.value = response.rows;
+  //     total.value = response.total;
+  //     loading.value = false;
+  //   }
+  // );
 }
 // 返回按钮
 function handleClose() {

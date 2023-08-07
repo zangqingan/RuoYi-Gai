@@ -199,7 +199,7 @@ import { useDict } from "@/hooks/useDict";
 import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
 import { download } from "@/utils/request";
 const $modal = inject("$modal");
-const { proxy } = getCurrentInstance();
+
 const { sys_common_status } = useDict("sys_common_status");
 
 const logininforList = ref([]);
@@ -239,14 +239,13 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
+const logininforRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   queryParams.value.pageNum = 1;
-  proxy.$refs["logininforRef"].sort(
-    defaultSort.value.prop,
-    defaultSort.value.order
-  );
+  logininforRef.value.sort(defaultSort.value.prop, defaultSort.value.order);
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {

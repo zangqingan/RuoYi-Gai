@@ -229,7 +229,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(configRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -315,7 +317,7 @@ function reset() {
     configType: "Y",
     remark: undefined,
   };
-  resetForm("configRef");
+  resetForm(configRef.value);
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -323,9 +325,10 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 /** 多选框选中数据 */
@@ -351,8 +354,10 @@ function handleUpdate(row) {
   });
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["configRef"].validate((valid) => {
+const configRef = ref(null);
+async function submitForm(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
     if (valid) {
       if (form.value.configId != undefined) {
         updateConfig(form.value).then((response) => {
@@ -367,6 +372,8 @@ function submitForm() {
           getList();
         });
       }
+    } else {
+      console.log("error submit!", fields);
     }
   });
 }

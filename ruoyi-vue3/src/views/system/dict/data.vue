@@ -259,7 +259,7 @@ import {
 } from "@/api/system/dict/data";
 import { parseTime, resetForm } from "@/utils/ruoyi";
 const $tab = inject("$tab");
-const { proxy } = getCurrentInstance();
+
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const dataList = ref([]);
@@ -349,7 +349,7 @@ function reset() {
     status: "0",
     remark: undefined,
   };
-  resetForm("dataRef");
+  resetForm(dataRef.value);
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -362,8 +362,9 @@ function handleClose() {
   $tab.closeOpenPage(obj);
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   queryParams.value.dictType = defaultDictType;
   handleQuery();
 }
@@ -393,7 +394,7 @@ function handleUpdate(row) {
 /** 提交按钮 */
 const dataRef = ref(null);
 function submitForm(dataRef) {
-  dataRef.validate((valid) => {
+  dataRef.validate((valid, fields) => {
     if (valid) {
       if (form.value.dictCode != undefined) {
         updateData(form.value).then((response) => {
@@ -410,6 +411,8 @@ function submitForm(dataRef) {
           getList();
         });
       }
+    } else {
+      console.log("error submit!", fields);
     }
   });
 }
