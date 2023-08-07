@@ -205,7 +205,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(deptRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -225,7 +227,7 @@ import {
 } from "@/api/system/dept";
 import { parseTime, resetForm, handleTree } from "@/utils/ruoyi";
 const $modal = inject("$modal");
-const { proxy } = getCurrentInstance();
+
 const { sys_normal_disable } = useDict("sys_normal_disable");
 
 const deptList = ref([]);
@@ -297,15 +299,16 @@ function reset() {
     email: undefined,
     status: "0",
   };
-  resetForm("deptRef");
+  resetForm(deptRef.value);
 }
 /** 搜索按钮操作 */
 function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 /** 新增按钮操作 */
@@ -341,8 +344,10 @@ function handleUpdate(row) {
   });
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["deptRef"].validate((valid) => {
+const deptRef = ref(null);
+async function submitForm(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid) => {
     if (valid) {
       if (form.value.deptId != undefined) {
         updateDept(form.value).then((response) => {
