@@ -248,6 +248,7 @@ import {
   optionselect as getDictOptionselect,
   getType,
 } from "@/api/system/dict/type";
+import { useDict } from "@/hooks/useDict";
 import {
   listData,
   getData,
@@ -257,7 +258,6 @@ import {
 } from "@/api/system/dict/data";
 const $tab = inject("$tab");
 const parseTime = inject("parseTime");
-const useDict = inject("useDict");
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");

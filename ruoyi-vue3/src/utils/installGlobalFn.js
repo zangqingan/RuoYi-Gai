@@ -1,5 +1,4 @@
 // 常用方法声明为全局
-import { useDict } from "@/utils/dict";
 import { download } from "@/utils/request";
 import {
   parseTime,
@@ -12,7 +11,6 @@ import {
 
 export default {
   install: (app) => {
-    app.provide("useDict", useDict);
     app.provide("download", download);
     app.provide("parseTime", parseTime);
     app.provide("resetForm", resetForm);

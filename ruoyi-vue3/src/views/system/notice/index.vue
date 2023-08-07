@@ -230,8 +230,9 @@ import {
   addNotice,
   updateNotice,
 } from "@/api/system/notice";
+import { useDict } from "@/hooks/useDict";
 const $modal = inject("$modal");
-const useDict = inject("useDict");
+
 const { proxy } = getCurrentInstance();
 const { sys_notice_status, sys_notice_type } = useDict(
   "sys_notice_status",

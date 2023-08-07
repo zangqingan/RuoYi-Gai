@@ -237,9 +237,9 @@
 <script setup name="JobLog">
 import { getJob } from "@/api/monitor/job";
 import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/jobLog";
-
+import { useDict } from "@/hooks/useDict";
 const $tab = inject("$tab");
-const useDict = inject("useDict");
+
 const { proxy } = getCurrentInstance();
 const { sys_common_status, sys_job_group } = useDict(
   "sys_common_status",

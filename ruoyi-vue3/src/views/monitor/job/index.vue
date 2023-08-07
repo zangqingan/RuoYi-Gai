@@ -405,9 +405,9 @@ import {
   runJob,
   changeJobStatus,
 } from "@/api/monitor/job";
-
+import { useDict } from "@/hooks/useDict";
 const router = useRouter();
-const useDict = inject("useDict");
+
 const { proxy } = getCurrentInstance();
 const { sys_job_group, sys_job_status } = useDict(
   "sys_job_group",

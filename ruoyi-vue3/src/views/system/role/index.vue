@@ -356,6 +356,7 @@
 </template>
 
 <script setup name="Role">
+import { useDict } from "@/hooks/useDict";
 import {
   addRole,
   changeRoleStatus,
@@ -373,7 +374,6 @@ import {
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
-const useDict = inject("useDict");
 const parseTime = inject("parseTime");
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");

@@ -400,12 +400,13 @@ import {
   listMenu,
   updateMenu,
 } from "@/api/system/menu";
+import { useDict } from "@/hooks/useDict";
 import SvgIcon from "@/components/SvgIcon";
 import IconSelect from "@/components/IconSelect";
 import { ClickOutside as vClickOutside } from "element-plus";
 const $modal = inject("$modal");
 const parseTime = inject("parseTime");
-const useDict = inject("useDict");
+
 const { proxy } = getCurrentInstance();
 const { sys_show_hide, sys_normal_disable } = useDict(
   "sys_show_hide",

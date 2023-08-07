@@ -208,9 +208,8 @@ import {
   getPost,
   updatePost,
 } from "@/api/system/post";
-
+import { useDict } from "@/hooks/useDict";
 const { proxy } = getCurrentInstance();
-const useDict = inject("useDict");
 const parseTime = inject("parseTime");
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");

@@ -247,8 +247,8 @@ import {
   updateType,
   refreshCache,
 } from "@/api/system/dict/type";
+import { useDict } from "@/hooks/useDict";
 
-const useDict = inject("useDict");
 const parseTime = inject("parseTime");
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");

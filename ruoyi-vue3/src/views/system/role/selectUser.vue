@@ -97,7 +97,7 @@
 
 <script setup name="SelectUser">
 import { authUserSelectAll, unallocatedUserList } from "@/api/system/role";
-
+import { useDict } from "@/hooks/useDict";
 const props = defineProps({
   roleId: {
     type: [Number, String],
@@ -105,7 +105,7 @@ const props = defineProps({
 });
 const $modal = inject("$modal");
 const parseTime = inject("parseTime");
-const useDict = inject("useDict");
+
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
 

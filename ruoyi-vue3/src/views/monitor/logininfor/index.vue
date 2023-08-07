@@ -195,9 +195,9 @@ import {
   cleanLogininfor,
   unlockLogininfor,
 } from "@/api/monitor/logininfor";
+import { useDict } from "@/hooks/useDict";
 const $modal = inject("$modal");
 const parseTime = inject("parseTime");
-const useDict = inject("useDict");
 const { proxy } = getCurrentInstance();
 const { sys_common_status } = useDict("sys_common_status");
 

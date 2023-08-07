@@ -246,9 +246,10 @@ import {
   updateConfig,
   refreshCache,
 } from "@/api/system/config";
+import { useDict } from "@/hooks/useDict";
 const $modal = inject("$modal");
 const parseTime = inject("parseTime");
-const useDict = inject("useDict");
+
 const { proxy } = getCurrentInstance();
 const { sys_yes_no } = useDict("sys_yes_no");
 

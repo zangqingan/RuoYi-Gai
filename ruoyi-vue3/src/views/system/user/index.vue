@@ -489,6 +489,7 @@
 </template>
 
 <script setup name="User">
+import { useDict } from "@/hooks/useDict";
 import { getToken } from "@/utils/auth";
 import {
   changeUserStatus,
@@ -504,7 +505,8 @@ import {
 const router = useRouter();
 const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
-const useDict = inject("useDict");
+
+// 使用字典
 const { sys_normal_disable, sys_user_sex } = useDict(
   "sys_normal_disable",
   "sys_user_sex"
@@ -622,13 +624,11 @@ function getDeptTree() {
 const addDateRange = inject("addDateRange");
 function getList() {
   loading.value = true;
-  listUser(addDateRange(queryParams.value, dateRange.value)).then(
-    (res) => {
-      loading.value = false;
-      userList.value = res.rows;
-      total.value = res.total;
-    }
-  );
+  listUser(addDateRange(queryParams.value, dateRange.value)).then((res) => {
+    loading.value = false;
+    userList.value = res.rows;
+    total.value = res.total;
+  });
 }
 /** 节点单击事件 */
 function handleNodeClick(data) {

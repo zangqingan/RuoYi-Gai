@@ -141,6 +141,7 @@
 
 <script setup name="AuthUser">
 import selectUser from "./selectUser";
+import { useDict } from "@/hooks/useDict";
 import {
   allocatedUserList,
   authUserCancel,
@@ -150,7 +151,7 @@ const $tab = inject("$tab");
 const parseTime = inject("parseTime");
 const route = useRoute();
 const { proxy } = getCurrentInstance();
-const useDict = inject("useDict");
+
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const userList = ref([]);

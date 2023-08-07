@@ -274,7 +274,7 @@
 import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog";
 const $modal = inject("$modal");
 const parseTime = inject("parseTime");
-const useDict = inject("useDict");
+import { useDict } from "@/hooks/useDict";
 const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = useDict(
   "sys_oper_type",
