@@ -273,13 +273,13 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询调度日志列表 */
 function getList() {
   loading.value = true;
-  // listJobLog(addDateRange(queryParams.value, dateRange.value)).then(
-  //   (response) => {
-  //     jobLogList.value = response.rows;
-  //     total.value = response.total;
-  //     loading.value = false;
-  //   }
-  // );
+  listJobLog(addDateRange(queryParams.value, dateRange.value)).then(
+    (response) => {
+      jobLogList.value = response.rows;
+      total.value = response.total;
+      loading.value = false;
+    }
+  );
 }
 // 返回按钮
 function handleClose() {
@@ -292,9 +292,10 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 // 多选框选中数据

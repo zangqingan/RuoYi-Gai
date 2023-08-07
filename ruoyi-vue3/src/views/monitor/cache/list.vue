@@ -4,7 +4,10 @@
       <el-col :span="8">
         <el-card style="height: calc(100vh - 125px)">
           <template #header>
-            <Collection style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">缓存列表</span>
+            <Collection
+              style="width: 1em; height: 1em; vertical-align: middle"
+            />
+            <span style="vertical-align: middle">缓存列表</span>
             <el-button
               style="float: right; padding: 3px 0"
               link
@@ -63,7 +66,8 @@
       <el-col :span="8">
         <el-card style="height: calc(100vh - 125px)">
           <template #header>
-            <Key style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">键名列表</span>
+            <Key style="width: 1em; height: 1em; vertical-align: middle" />
+            <span style="vertical-align: middle">键名列表</span>
             <el-button
               style="float: right; padding: 3px 0"
               link
@@ -114,7 +118,8 @@
       <el-col :span="8">
         <el-card :bordered="false" style="height: calc(100vh - 125px)">
           <template #header>
-            <Document style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">缓存内容</span>
+            <Document style="width: 1em; height: 1em; vertical-align: middle" />
+            <span style="vertical-align: middle">缓存内容</span>
             <el-button
               style="float: right; padding: 3px 0"
               link
@@ -155,9 +160,15 @@
 </template>
 
 <script setup name="CacheList">
-import { listCacheName, listCacheKey, getCacheValue, clearCacheName, clearCacheKey, clearCacheAll } from "@/api/monitor/cache";
+import {
+  listCacheName,
+  listCacheKey,
+  getCacheValue,
+  clearCacheName,
+  clearCacheKey,
+  clearCacheAll,
+} from "@/api/monitor/cache";
 
-const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
 const cacheNames = ref([]);
 const cacheKeys = ref([]);
@@ -170,7 +181,7 @@ const tableHeight = ref(window.innerHeight - 200);
 /** 查询缓存名称列表 */
 function getCacheNames() {
   loading.value = true;
-  listCacheName().then(response => {
+  listCacheName().then((response) => {
     cacheNames.value = response.data;
     loading.value = false;
   });
@@ -184,7 +195,7 @@ function refreshCacheNames() {
 
 /** 清理指定名称缓存 */
 function handleClearCacheName(row) {
-  clearCacheName(row.cacheName).then(response => {
+  clearCacheName(row.cacheName).then((response) => {
     $modal.msgSuccess("清理缓存名称[" + row.cacheName + "]成功");
     getCacheKeys();
   });
@@ -197,7 +208,7 @@ function getCacheKeys(row) {
     return;
   }
   subLoading.value = true;
-  listCacheKey(cacheName).then(response => {
+  listCacheKey(cacheName).then((response) => {
     cacheKeys.value = response.data;
     subLoading.value = false;
     nowCacheName.value = cacheName;
@@ -212,7 +223,7 @@ function refreshCacheKeys() {
 
 /** 清理指定键名缓存 */
 function handleClearCacheKey(cacheKey) {
-  clearCacheKey(cacheKey).then(response => {
+  clearCacheKey(cacheKey).then((response) => {
     $modal.msgSuccess("清理缓存键名[" + cacheKey + "]成功");
     getCacheKeys();
   });
@@ -230,14 +241,14 @@ function keyFormatter(cacheKey) {
 
 /** 查询缓存内容详细 */
 function handleCacheValue(cacheKey) {
-  getCacheValue(nowCacheName.value, cacheKey).then(response => {
+  getCacheValue(nowCacheName.value, cacheKey).then((response) => {
     cacheForm.value = response.data;
   });
 }
 
 /** 清理全部缓存 */
 function handleClearCacheAll() {
-  clearCacheAll().then(response => {
+  clearCacheAll().then((response) => {
     $modal.msgSuccess("清理全部缓存成功");
   });
 }

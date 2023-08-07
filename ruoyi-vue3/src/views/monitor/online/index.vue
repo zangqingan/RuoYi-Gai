@@ -118,7 +118,6 @@
 <script setup name="Online">
 import { forceLogout, list as initData } from "@/api/monitor/online";
 import { parseTime, resetForm } from "@/utils/ruoyi";
-const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
 const onlineList = ref([]);
 const loading = ref(true);
@@ -146,8 +145,9 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 /** 强退按钮操作 */

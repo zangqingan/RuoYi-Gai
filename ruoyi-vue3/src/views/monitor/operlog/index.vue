@@ -272,11 +272,15 @@
 
 <script setup name="Operlog">
 import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog";
-import { parseTime, resetForm, selectDictLabel } from "@/utils/ruoyi";
+import {
+  parseTime,
+  resetForm,
+  addDateRange,
+  selectDictLabel,
+} from "@/utils/ruoyi";
 import { download } from "@/utils/request";
 const $modal = inject("$modal");
 import { useDict } from "@/hooks/useDict";
-const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = useDict(
   "sys_oper_type",
   "sys_common_status"
@@ -287,7 +291,6 @@ const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
 const ids = ref([]);
-const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
@@ -327,14 +330,13 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
+const operlogRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   queryParams.value.pageNum = 1;
-  proxy.$refs["operlogRef"].sort(
-    defaultSort.value.prop,
-    defaultSort.value.order
-  );
+  operlogRef.value.sort(defaultSort.value.prop, defaultSort.value.order);
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {

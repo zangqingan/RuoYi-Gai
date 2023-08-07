@@ -313,7 +313,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(jobRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -410,7 +412,6 @@ import { parseTime, resetForm, selectDictLabel } from "@/utils/ruoyi";
 import { download } from "@/utils/request";
 const router = useRouter();
 
-const { proxy } = getCurrentInstance();
 const { sys_job_group, sys_job_status } = useDict(
   "sys_job_group",
   "sys_job_status"
@@ -482,7 +483,7 @@ function reset() {
     concurrent: 1,
     status: "0",
   };
-  resetForm("jobRef");
+  resetForm(jobRef.value);
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -490,8 +491,9 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 // 多选框选中数据
@@ -581,8 +583,10 @@ function handleUpdate(row) {
   });
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["jobRef"].validate((valid) => {
+const jobRef = ref(null);
+async function submitForm(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
     if (valid) {
       if (form.value.jobId != undefined) {
         updateJob(form.value).then((response) => {
@@ -597,6 +601,8 @@ function submitForm() {
           getList();
         });
       }
+    } else {
+      console.log("error submit!", fields);
     }
   });
 }
