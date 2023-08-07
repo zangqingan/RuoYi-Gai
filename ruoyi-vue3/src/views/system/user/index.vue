@@ -433,7 +433,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(userRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -489,8 +491,10 @@
 </template>
 
 <script setup name="User">
-import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
 import { getToken } from "@/utils/auth";
+import { download } from "@/utils/request";
+import { useDict } from "@/hooks/useDict";
 import {
   changeUserStatus,
   listUser,
@@ -501,11 +505,6 @@ import {
   addUser,
   deptTreeSelect,
 } from "@/api/system/user";
-import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
-import { download } from "@/utils/request";
-const router = useRouter();
-const { proxy } = getCurrentInstance();
-const $modal = inject("$modal");
 
 // 使用字典
 const { sys_normal_disable, sys_user_sex } = useDict(
@@ -612,8 +611,9 @@ const filterNode = (value, data) => {
   return data.label.indexOf(value) !== -1;
 };
 /** 根据名称筛选部门树 */
+const deptTreeRef = ref(null);
 watch(deptName, (val) => {
-  proxy.$refs["deptTreeRef"].filter(val);
+  deptTreeRef.value.filter(val);
 });
 /** 查询部门下拉树结构 */
 function getDeptTree() {
@@ -641,14 +641,16 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   queryParams.value.deptId = undefined;
-  proxy.$refs.deptTreeRef.setCurrentKey(null);
+  deptTreeRef.value.setCurrentKey(null);
   handleQuery();
 }
 /** 删除按钮操作 */
+const $modal = inject("$modal");
 function handleDelete(row) {
   const userIds = row.userId || ids.value;
   $modal
@@ -700,15 +702,17 @@ function handleCommand(command, row) {
       break;
   }
 }
+
 /** 跳转角色分配 */
+const router = useRouter();
 function handleAuthRole(row) {
   const userId = row.userId;
   router.push("/system/user-auth/role/" + userId);
 }
 /** 重置密码按钮操作 */
 function handleResetPwd(row) {
-  proxy
-    .$prompt('请输入"' + row.userName + '"的新密码', "提示", {
+  $modal
+    .prompt('请输入"' + row.userName + '"的新密码', "提示", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       closeOnClickModal: false,
@@ -746,11 +750,12 @@ const handleFileUploadProgress = (event, file, fileList) => {
   upload.isUploading = true;
 };
 /** 文件上传成功处理 */
+const uploadRef = ref(null);
 const handleFileSuccess = (response, file, fileList) => {
   upload.open = false;
   upload.isUploading = false;
-  proxy.$refs["uploadRef"].handleRemove(file);
-  proxy.$alert(
+  uploadRef.value.handleRemove(file);
+  $modal.alert(
     "<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" +
       response.msg +
       "</div>",
@@ -761,7 +766,7 @@ const handleFileSuccess = (response, file, fileList) => {
 };
 /** 提交上传文件 */
 function submitFileForm() {
-  proxy.$refs["uploadRef"].submit();
+  uploadRef.value.submit();
 }
 /** 重置操作表单 */
 function reset() {
@@ -779,7 +784,7 @@ function reset() {
     postIds: [],
     roleIds: [],
   };
-  resetForm("userRef");
+  resetForm(userRef.value);
 }
 /** 取消按钮 */
 function cancel() {
@@ -813,8 +818,10 @@ function handleUpdate(row) {
   });
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["userRef"].validate((valid) => {
+const userRef = ref(null);
+async function submitForm(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
     if (valid) {
       if (form.value.userId != undefined) {
         updateUser(form.value).then((response) => {
@@ -829,6 +836,8 @@ function submitForm() {
           getList();
         });
       }
+    } else {
+      console.log("error submit!", fields);
     }
   });
 }
