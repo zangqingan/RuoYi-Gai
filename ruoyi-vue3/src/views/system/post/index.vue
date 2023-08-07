@@ -192,7 +192,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(postRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -212,7 +214,6 @@ import { useDict } from "@/hooks/useDict";
 import { download } from "@/utils/request";
 import { parseTime, resetForm } from "@/utils/ruoyi";
 
-const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const postList = ref([]);
@@ -273,7 +274,7 @@ function reset() {
     status: "0",
     remark: undefined,
   };
-  resetForm("postRef");
+  resetForm(postRef.value);
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -281,8 +282,9 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 /** 多选框选中数据 */
@@ -308,8 +310,10 @@ function handleUpdate(row) {
   });
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["postRef"].validate((valid) => {
+const postRef = ref(null);
+async function submitForm(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
     if (valid) {
       if (form.value.postId != undefined) {
         updatePost(form.value).then((response) => {
@@ -324,6 +328,8 @@ function submitForm() {
           getList();
         });
       }
+    } else {
+      console.log("error submit!", fields);
     }
   });
 }

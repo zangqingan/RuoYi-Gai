@@ -229,7 +229,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(dictRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -249,8 +251,8 @@ import {
 } from "@/api/system/dict/type";
 import { useDict } from "@/hooks/useDict";
 import { download } from "@/utils/request";
-import { parseTime, resetForm } from "@/utils/ruoyi";
-const { proxy } = getCurrentInstance();
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
+
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const typeList = ref([]);
@@ -310,7 +312,7 @@ function reset() {
     status: "0",
     remark: undefined,
   };
-  resetForm("dictRef");
+  resetForm(dictRef.value);
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -318,9 +320,10 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 /** 新增按钮操作 */
@@ -346,8 +349,10 @@ function handleUpdate(row) {
   });
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["dictRef"].validate((valid) => {
+const dictRef = ref(null);
+async function submitForm(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
     if (valid) {
       if (form.value.dictId != undefined) {
         updateType(form.value).then((response) => {
@@ -362,6 +367,8 @@ function submitForm() {
           getList();
         });
       }
+    } else {
+      console.log("error submit!", fields);
     }
   });
 }
