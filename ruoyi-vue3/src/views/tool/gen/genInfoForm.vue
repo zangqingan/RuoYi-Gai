@@ -263,16 +263,19 @@ import { listMenu } from "@/api/system/menu";
 import { handleTree } from "@/utils/ruoyi";
 const subColumns = ref([]);
 const menuOptions = ref([]);
-const { proxy } = getCurrentInstance();
 
 const props = defineProps({
   info: {
     type: Object,
-    default: null,
+    default() {
+      return {};
+    },
   },
   tables: {
     type: Array,
-    default: null,
+    default() {
+      return [];
+    },
   },
 });
 
@@ -325,4 +328,9 @@ watch(
 );
 
 getMenuTreeselect();
+
+const genInfoForm = ref(null);
+defineExpose({
+  genInfoForm,
+});
 </script>

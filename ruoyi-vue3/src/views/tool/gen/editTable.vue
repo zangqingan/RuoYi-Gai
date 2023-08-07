@@ -166,8 +166,8 @@ import basicInfoForm from "./basicInfoForm";
 import genInfoForm from "./genInfoForm";
 
 const route = useRoute();
-const { proxy } = getCurrentInstance();
 const $tab = inject("$tab");
+const $modal = inject("$modal");
 const activeName = ref("columnInfo");
 const tableHeight = ref(document.documentElement.scrollHeight - 245 + "px");
 const tables = ref([]);
@@ -176,9 +176,11 @@ const dictOptions = ref([]);
 const info = ref({});
 
 /** 提交按钮 */
+const basicInfo = ref(null);
+const genInfo = ref(null);
 function submitForm() {
-  const basicForm = proxy.$refs.basicInfo.$refs.basicInfoForm;
-  const genForm = proxy.$refs.genInfo.$refs.genInfoForm;
+  const basicForm = basicInfo.value.basicInfoForm;
+  const genForm = genInfo.value.genInfoForm;
   Promise.all([basicForm, genForm].map(getFormPromise)).then((res) => {
     const validateResult = res.every((item) => !!item);
     if (validateResult) {

@@ -280,7 +280,7 @@ onActivated(() => {
     uniqueId.value = time;
     queryParams.value.pageNum = Number(route.query.pageNum);
     dateRange.value = [];
-    resetForm("queryForm");
+    resetForm(queryRef.value);
     getList();
   }
 });
@@ -335,9 +335,10 @@ function openImportTable() {
   importRef.value.show();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 /** 预览按钮 */
