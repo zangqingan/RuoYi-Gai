@@ -106,7 +106,6 @@ const props = defineProps({
 });
 const $modal = inject("$modal");
 
-const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = useDict("sys_normal_disable");
 
 const userList = ref([]);
@@ -129,8 +128,9 @@ function show() {
   visible.value = true;
 }
 /**选择行 */
+const refTable = ref(null);
 function clickRow(row) {
-  proxy.$refs["refTable"].toggleRowSelection(row);
+  refTable.value.toggleRowSelection(row);
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {

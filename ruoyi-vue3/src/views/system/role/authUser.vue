@@ -150,7 +150,6 @@ import {
 import { parseTime, resetForm } from "@/utils/ruoyi";
 const $tab = inject("$tab");
 const route = useRoute();
-const { proxy } = getCurrentInstance();
 
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
@@ -199,8 +198,11 @@ function handleSelectionChange(selection) {
   multiple.value = !selection.length;
 }
 /** 打开授权用户表弹窗 */
+const selectRef = ref(null);
 function openSelectUser() {
-  proxy.$refs["selectRef"].show();
+  nextTick(() => {
+    selectRef.value.show();
+  });
 }
 /** 取消授权按钮操作 */
 function cancelAuthUser(row) {

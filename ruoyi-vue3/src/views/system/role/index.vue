@@ -286,7 +286,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="submitForm(roleRef)"
+            >确 定</el-button
+          >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -357,6 +359,8 @@
 
 <script setup name="Role">
 import { useDict } from "@/hooks/useDict";
+import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
+import { download } from "@/utils/request";
 import {
   addRole,
   changeRoleStatus,
@@ -371,10 +375,7 @@ import {
   roleMenuTreeselect,
   treeselect as menuTreeselect,
 } from "@/api/system/menu";
-import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
-import { download } from "@/utils/request";
-const router = useRouter();
-const { proxy } = getCurrentInstance();
+
 const { sys_normal_disable } = useDict("sys_normal_disable");
 const $modal = inject("$modal");
 const roleList = ref([]);
@@ -445,9 +446,10 @@ function handleQuery() {
   getList();
 }
 /** 重置按钮操作 */
+const queryRef = ref(null);
 function resetQuery() {
   dateRange.value = [];
-  resetForm("queryRef");
+  resetForm(queryRef.value);
   handleQuery();
 }
 /** 删除按钮操作 */
@@ -508,7 +510,9 @@ function handleCommand(command, row) {
       break;
   }
 }
+
 /** 分配用户 */
+const router = useRouter();
 function handleAuthUser(row) {
   router.push("/system/role-auth/user/" + row.roleId);
 }
@@ -548,7 +552,7 @@ function reset() {
     deptCheckStrictly: true,
     remark: undefined,
   };
-  resetForm("roleRef");
+  resetForm(roleRef.value);
 }
 /** 添加角色 */
 function handleAdd() {
@@ -633,8 +637,10 @@ function getMenuAllCheckedKeys() {
   return checkedKeys;
 }
 /** 提交按钮 */
-function submitForm() {
-  proxy.$refs["roleRef"].validate((valid) => {
+const roleRef = ref(null);
+async function submitForm(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid) => {
     if (valid) {
       if (form.value.roleId != undefined) {
         form.value.menuIds = getMenuAllCheckedKeys();
