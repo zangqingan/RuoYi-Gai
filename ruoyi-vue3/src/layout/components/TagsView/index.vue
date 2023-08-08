@@ -1,5 +1,5 @@
 <template>
-  <div id="tags-view-container" class="tags-view-container">
+  <div ref="tagsRef" id="tags-view-container" class="tags-view-container">
     <scroll-pane
       ref="scrollPaneRef"
       class="tags-view-wrapper"
@@ -66,7 +66,6 @@ const selectedTag = ref({});
 const affixTags = ref([]);
 const scrollPaneRef = ref(null);
 
-const { proxy } = getCurrentInstance();
 const route = useRoute();
 const router = useRouter();
 
@@ -233,10 +232,12 @@ function toLastView(visitedViews, view) {
     }
   }
 }
+
+const tagsRef = ref(null);
 function openMenu(tag, e) {
   const menuMinWidth = 105;
-  const offsetLeft = proxy.$el.getBoundingClientRect().left; // container margin left
-  const offsetWidth = proxy.$el.offsetWidth; // container width
+  const offsetLeft = tagsRef.value.$el.getBoundingClientRect().left; // container margin left
+  const offsetWidth = tagsRef.value.$el.offsetWidth; // container width
   const maxLeft = offsetWidth - menuMinWidth; // left boundary
   const l = e.clientX - offsetLeft + 15; // 15: margin right
 
