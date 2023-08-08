@@ -71,7 +71,6 @@ import { getAuthRole, updateAuthRole } from "@/api/system/user";
 import { parseTime } from "@/utils/ruoyi";
 const $modal = inject("$modal");
 const route = useRoute();
-const { proxy } = getCurrentInstance();
 const $tab = inject("$tab");
 const loading = ref(true);
 const total = ref(0);
@@ -86,8 +85,9 @@ const form = ref({
 });
 
 /** 单击选中行数据 */
+const roleRef = ref(null);
 function clickRow(row) {
-  proxy.$refs["roleRef"].toggleRowSelection(row);
+  roleRef.value.toggleRowSelection(row);
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
@@ -123,7 +123,7 @@ function submitForm() {
       nextTick(() => {
         roles.value.forEach((row) => {
           if (row.flag) {
-            proxy.$refs["roleRef"].toggleRowSelection(row);
+            roleRef.value.toggleRowSelection(row);
           }
         });
       });
