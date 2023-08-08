@@ -253,7 +253,6 @@ import { parseTime, resetForm, addDateRange } from "@/utils/ruoyi";
 import { download } from "@/utils/request";
 const $modal = inject("$modal");
 
-const { proxy } = getCurrentInstance();
 const { sys_yes_no } = useDict("sys_yes_no");
 
 const configList = ref([]);

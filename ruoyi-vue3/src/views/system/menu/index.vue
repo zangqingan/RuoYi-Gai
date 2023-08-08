@@ -409,7 +409,6 @@ import { ClickOutside as vClickOutside } from "element-plus";
 import { parseTime, resetForm, handleTree } from "@/utils/ruoyi";
 const $modal = inject("$modal");
 
-const { proxy } = getCurrentInstance();
 const { sys_show_hide, sys_normal_disable } = useDict(
   "sys_show_hide",
   "sys_normal_disable"
