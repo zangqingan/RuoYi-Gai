@@ -58,7 +58,9 @@
           <el-button icon="RefreshRight" @click="rotateRight()"></el-button>
         </el-col>
         <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-          <el-button type="primary" @click="uploadImg()">提 交</el-button>
+          <el-button type="primary" @click="uploadImg(cropper)"
+            >提 交</el-button
+          >
         </el-col>
       </el-row>
     </el-dialog>
@@ -72,7 +74,6 @@ import { uploadAvatar } from "@/api/system/user";
 import useUserStore from "@/store/modules/user";
 
 const userStore = useUserStore();
-const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
 
 const open = ref(false);
@@ -102,16 +103,16 @@ function modalOpened() {
 function requestUpload() {}
 /** 向左旋转 */
 function rotateLeft() {
-  proxy.$refs.cropper.rotateLeft();
+  cropper.value.rotateLeft();
 }
 /** 向右旋转 */
 function rotateRight() {
-  proxy.$refs.cropper.rotateRight();
+  cropper.value.rotateRight();
 }
 /** 图片缩放 */
 function changeScale(num) {
   num = num || 1;
-  proxy.$refs.cropper.changeScale(num);
+  cropper.value.changeScale(num);
 }
 /** 上传预处理 */
 function beforeUpload(file) {
@@ -126,8 +127,10 @@ function beforeUpload(file) {
   }
 }
 /** 上传图片 */
-function uploadImg() {
-  proxy.$refs.cropper.getCropBlob((data) => {
+const cropper = ref(null);
+async function uploadImg(formEl) {
+  if (!formEl) return;
+  await formEl.getCropBlob((data) => {
     let formData = new FormData();
     formData.append("avatarfile", data);
     uploadAvatar(formData).then((response) => {
