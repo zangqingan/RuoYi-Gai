@@ -27,7 +27,7 @@
           size="large"
           auto-complete="off"
           placeholder="密码"
-          @keyup.enter="handleLogin"
+          @keyup.enter="handleLogin(loginRef)"
         >
           <template #prefix
             ><svg-icon icon-class="password" class="el-input__icon input-icon"
@@ -41,7 +41,7 @@
           auto-complete="off"
           placeholder="验证码"
           style="width: 63%"
-          @keyup.enter="handleLogin"
+          @keyup.enter="handleLogin(loginRef)"
         >
           <template #prefix
             ><svg-icon icon-class="validCode" class="el-input__icon input-icon"
@@ -62,7 +62,7 @@
           size="large"
           type="primary"
           style="width: 100%"
-          @click.prevent="handleLogin"
+          @click.prevent="handleLogin(loginRef)"
         >
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
@@ -89,7 +89,6 @@ import useUserStore from "@/store/modules/user";
 
 const userStore = useUserStore();
 const router = useRouter();
-const { proxy } = getCurrentInstance();
 
 const loginForm = ref({
   username: "admin",
@@ -113,8 +112,10 @@ const captchaEnabled = ref(true);
 const register = ref(false);
 const redirect = ref(undefined);
 
-function handleLogin() {
-  proxy.$refs.loginRef.validate((valid) => {
+const loginRef = ref(null);
+async function handleLogin(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid) => {
     if (valid) {
       loading.value = true;
       // 勾选了需要记住密码设置在 cookie 中设置记住用户名和密码
