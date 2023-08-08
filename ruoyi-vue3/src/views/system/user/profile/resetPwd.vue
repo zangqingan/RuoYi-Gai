@@ -25,7 +25,7 @@
       />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submit">保存</el-button>
+      <el-button type="primary" @click="submit(pwdRef)">保存</el-button>
       <el-button type="danger" @click="close">关闭</el-button>
     </el-form-item>
   </el-form>
@@ -34,7 +34,6 @@
 <script setup>
 import { updateUserPwd } from "@/api/system/user";
 
-const { proxy } = getCurrentInstance();
 const $modal = inject("$modal");
 const $tab = inject("$tab");
 const user = reactive({
@@ -63,8 +62,10 @@ const rules = ref({
 });
 
 /** 提交按钮 */
-function submit() {
-  proxy.$refs.pwdRef.validate((valid) => {
+const pwdRef = ref(null);
+async function submit(formEl) {
+  if (!formEl) return;
+  await formEl.validate((valid) => {
     if (valid) {
       updateUserPwd(user.oldPassword, user.newPassword).then((response) => {
         $modal.msgSuccess("修改成功");
