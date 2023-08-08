@@ -1,0 +1,76 @@
+// colors
+$colors: (
+  "primary": #303133,
+  "info": #909399,
+  "warning": #e6a23c,
+  "success ": #67c23a,
+  "white": #fff,
+  "light": #f9f9f9,
+  "grey": #999,
+  "dark": #222,
+  "black": #000,
+  "danger": #f56c6c,
+);
+$border-color: map-get($colors, "light");
+// font size
+$base-font-size: 1rem;
+$font-sizes: (
+  xxs: 0.6154,
+  xs: 0.7692,
+  // 10px
+  sm: 0.9231,
+  // 12px
+  md: 1,
+  // 13px
+  lg: 1.0769,
+  // 14px
+  xl: 1.2308,
+  // 16px
+);
+// flex布局主轴对齐方式
+$flex-jc: (
+  start: flex-start,
+  //（默认值）：左对齐
+  end: flex-end,
+  // 右对齐
+  center: center,
+  // 居中
+  between: space-between,
+  // 两端对齐，项目之间的间隔都相等。
+  around: space-around,
+  // 每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。
+  evenly: space-evenly,
+  // 每个项目的间隔相等。所以，项目之间的间隔比项目与边框的间隔一样。
+);
+// flex布局辅轴对齐方式
+$flex-ai: (
+  start: flex-start,
+  // 交叉轴的起点对齐。
+  end: flex-end,
+  // 交叉轴的终点对齐。
+  center: center,
+  // 交叉轴的中点对齐
+  stretch: stretch,
+  // 如果项目未设置高度或设为auto，将占满整个容器的高度。
+  baseline: baseline,
+  // 项目的第一行文字的基线对齐。
+);
+// 内外边距相关
+$spacing-types: (
+  m: margin,
+  p: padding,
+);
+$spacing-directions: (
+  t: top,
+  r: right,
+  b: bottom,
+  l: left,
+);
+$spacing-base-size: 1rem;
+$spacing-sizes: (
+  1: 0.25,
+  2: 0.5,
+  3: 1,
+  4: 1.5,
+  5: 3,
+);

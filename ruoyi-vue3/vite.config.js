@@ -53,6 +53,12 @@ export default defineConfig(({ mode, command }) => {
           },
         ],
       },
+      preprocessorOptions: {
+        // 全局scss文件挂载
+        scss: {
+          additionalData: "@import './src/assets/styles/_variables.scss';",
+        },
+      },
     },
   };
 });

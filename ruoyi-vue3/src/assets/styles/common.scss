@@ -1,0 +1,130 @@
+// 常用样式封装
+@import './variables';
+
+/** --- 常用类  ---*/
+// 宽度百分比
+.w-100 {
+  width: 100%;
+}
+// 高度百分比
+.h-100 {
+  height: 100%;
+}
+// text overflow
+.text-ellipsis {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+// 鼠标小手
+.pointer {
+  cursor: pointer;
+}
+// 清除浮动
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+
+/** --- flex 布局相关 start ---*/
+.d-flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-1 {
+  flex: 1;
+}
+// 主轴对齐方式
+// .js-center  => justify-content: center;
+@each $key, $value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+}
+// 辅轴对齐方式
+// .ai-center  => align-items: center;
+@each $key, $value in $flex-ai {
+  .ai-#{$key} {
+    align-items: $value;
+  }
+}
+// 子项目自己的辅轴对齐方式
+// .as-center  => align-self: center;
+@each $key, $value in $flex-ai {
+  .as-#{$key} {
+    align-self: $value;
+  }
+}
+/** --- flex 布局相关 end ---*/
+
+/** --- 内外边距相关 start ---*/
+@each $typeKey, $type in $spacing-types {
+  // .m-1   => margin: 1rem * 0.25; 四个方向的边距
+  @each $sizeKey, $size in $spacing-sizes {
+    .#{$typeKey}-#{$sizeKey} {
+      #{$type}: $size * $spacing-base-size;
+    }
+  }
+  // .mx-1 , .my-1    水平垂直两个方向的边距
+  @each $sizeKey, $size in $spacing-sizes {
+    .#{$typeKey}x-#{$sizeKey} {
+      #{$type}-left: $size * $spacing-base-size;
+      #{$type}-right: $size * $spacing-base-size;
+    }
+    .#{$typeKey}y-#{$sizeKey} {
+      #{$type}-top: $size * $spacing-base-size;
+      #{$type}-bottom: $size * $spacing-base-size;
+    }
+  }
+  // .mt-1  => margin-top: 1rem * 0.25;单个方向的边距
+  @each $directionKey, $direction in $spacing-directions {
+    @each $sizeKey, $size in $spacing-sizes {
+      .#{$typeKey}#{$directionKey}-#{$sizeKey} {
+        #{$type}-#{$direction}: $size * $spacing-base-size;
+      }
+    }
+  }
+}
+/** --- 内外边距相关 end ---*/
+
+/** --- 字体，边框，背景颜色相关 start ---*/
+// 字体颜色，背景颜色
+@each $colorKey, $color in $colors {
+  .text-#{$colorKey} {
+    color: $color;
+  }
+  .bg-#{$colorKey} {
+    background-color: $color;
+  }
+}
+// text align
+@each $var in (left, center, right) {
+  .text-#{$var} {
+    text-align: $var !important;
+  }
+}
+// font-size
+@each $sizeKey, $size in $font-sizes {
+  .fs-#{$sizeKey} {
+    font-size: $size * $base-font-size;
+  }
+}
+// borders
+@each $directionKey, $direction in $spacing-directions {
+  .border-#{$directionKey} {
+    border-#{$direction}: 1px solid $border-color;
+  }
+}
+/** --- 字体，边框，背景颜色相关 end ---*/
